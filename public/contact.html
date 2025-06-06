@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: rgb(251, 255, 169);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand img {
+            margin-left: 10px;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+        }
+
+
+
+        .navbar-toggler {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+
+        @media (max-width: 991.98px) {
+            .navbar-toggler {
+                display: block;
+            }
+
+            .navbar-collapse {
+                display: none !important;
+            }
+        }
+
+        .offcanvas {
+            background-color: #ffa5fa;
+            /* Light pink color */
+            color: black;
+            /* Text color for better readability */
+        }
+
+        .offcanvas.offcanvas-start {
+            width: 250px !important;
+            /* Set custom width */
+        }
+
+
+        /* For larger screens only */
+        @media (min-width: 992px) {
+            .navbar-nav .nav-link:hover {
+                color: #fff;
+                /* Change text color to white */
+                background-color: #9eff8d;
+                /* Pink background */
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+                /* Smooth transition */
+            }
+        }
+
+
+
+        /* Always pink for the Admin link */
+        .navbar-nav .admin-link {
+            background-color: #ffcd86;
+            /* Pink background */
+            color: black;
+            /* Text color */
+            border-radius: 5px;
+        }
+
+
+
+        .section {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e94e77;
+        }
+
+        .section label {
+            font-size: 16px;
+            color: #ff4081;
+        }
+
+        .section input[type="text"] {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+        }
+
+        .section button[type="submit"] {
+            background-color: #e94e77;
+            border-color: #e94e77;
+            color: #ffffff;
+        }
+
+        .section button[type="submit"]:hover {
+            background-color: #d84315;
+            border-color: #d84315;
+        }
+
+        .upload-section {
+            background-color: #e3f2fd;
+        }
+
+        .access-section {
+            background-color: #fce4ec;
+        }
+
+        .form-control {
+            width: 122px;
+            background-color: #f9f9f9;
+        }
+
+        #downloadButton {
+            display: none;
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+
+        footer {
+
+            padding: 20px 0;
+            position: relative;
+            /* Change to relative */
+            width: 100%;
+            margin-top: auto;
+            /* Pushes footer to bottom */
+        }
+
+        .navbar-toggler:focus,
+        .navbar-toggler:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px" ;>
+        <div class="container" style="font-size: larger;">
+            <!-- Navbar toggler for mobile (three-line menu icon) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" width="75" height="40" alt="Logo">
+            </a>
+
+            <!-- Desktop menu -->
+            <div class="collapse navbar-collapse" id="navbarNav" ">
+                <ul class=" navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: black;" aria-current="page" href="/"><i
+                            class="fas fa-home"></i> Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black;" href="/upload"><i class="fas fa-upload"></i> Uploads</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black;" href="/access"><i class="fas fa-download"></i> Access</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black;" href="/about"><i class="fas fa-info-circle"></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black;" href="/Contact"><i class="fas fa-envelope"></i>
+                        Contact</a>
+                </li>
+                <div style="margin-left: 10px;">
+                    <li class="nav-item">
+                        <a class="nav-link admin-link" href="/admin_login">
+                            <i class="fas fa-user" style="color:black" ;></i> <span class="admin-text"
+                                style="color:black" ;>Admin</span>
+                        </a>
+                    </li>
+                </div>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Offcanvas Sidebar (for mobile) -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav" style="font-size: large" ;>
+                <li class="nav-item" style="width: 100px" ;>
+                    <a class="nav-link" href="/"><i class="fas fa-home"></i> <span>Home</span></a>
+                </li>
+
+                <li class="nav-item" style="width: 100px" ;>
+                    <a class="nav-link" href="/upload"><i class="fas fa-upload"></i> Uploads</a>
+                </li>
+                <li class="nav-item" style="width: 100px" ;>
+                    <a class="nav-link" href="/access"><i class="fas fa-download"></i> Access</a>
+                </li>
+                <li class="nav-item" style="width: 100px" ;>
+                    <a class="nav-link" href="/about"><i class="fas fa-info-circle"></i> About</a>
+                </li>
+                <li class="nav-item" style="width: 100px" ;>
+                    <a class="nav-link" href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+                </li>
+
+                <div style="background-color: rgb(255, 31, 203); width:100px; border-radius: 10px;">
+
+                    <li class="nav-item" style="margin-left: 5px;">
+                        <a class="nav-link" style="color: black; border-radius: 6px;" href="/admin_login">
+                            <i class="fas fa-user"></i> Admin
+                        </a>
+                    </li>
+                    </div>
+            </ul>
+        </div>
+    </div>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Contact Us - Feel Free Share</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+    
+    <div class="container my-4">
+        <div class="contact p-4 bg-light border rounded shadow-sm">
+            <h2 class="text-primary fw-bold text-center">📞 Contact Us – Feel Free Share</h2><br>
+            
+            <p class="text-dark">
+              🎓 I am a student from <strong>Gyan Ganga Institute of Technology & Sciences, Jabalpur</strong>,  
+              currently pursuing <strong>BTech in Computer Science (💻 CS 3rd Year, 📚 6th Semester)</strong>.  
+              <br>📩 Feel free to reach out to us for any queries or support! 🤝
+          </p>
+          
+            
+            <br>
+    
+            <p class="text-dark">
+                <img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" width="24" alt="Email">  
+                <strong>Email:</strong> <a href="mailto:your-email@gmail.com" class="text-decoration-none text-primary">shrikant.kushwaha.cs22@ggits.net</a>
+            </p>
+            
+            <p class="text-dark">
+                <img src="https://cdn-icons-png.flaticon.com/128/145/145807.png" width="24" alt="LinkedIn">  
+                <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/shrikant-kushwaha-669378255" class="text-decoration-none text-primary" target="_blank">linkedin.com/in/shrikant-kushwaha-669378255</a>
+            </p>
+    
+            <p class="text-dark">
+                <img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" width="24" alt="Instagram">  
+                <strong>Instagram:</strong> <a href="https://www.instagram.com/shrikant_041?igsh=MTJ1ejRkYm1rdWY5cA==" class="text-decoration-none text-danger" target="_blank">instagram.com/shrikant_041</a>
+            </p>
+    
+            <p class="mt-4 text-dark"><strong>📢 Connect with us for any support or collaboration! 🚀</strong></p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+    
+
+
+    <footer class="">
+        <div class="container">
+            <hr>
+            <div class="row align-items-center">
+                <!-- Copyright (Left Side) -->
+                <div class="col-md-6 text-md-start  mb-2 mb-md-0" style="display: flex;">
+                    <p class="mb-0">© 2025 FeelFree Share, Inc. All rights reserved. </p>
+                    <p style="margin-left: 2%;"><a href="/termcondition" style="text-decoration: none;">Terms of Use</a></p>
+                </div>
+
+                <!-- Social Media Icons (Right Side) -->
+                <div class="col-md-6 text-md-end">
+                    <a href="https://twitter.com" class="text-dark me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.instagram.com/shrikant_041?igsh=MTJ1ejRkYm1rdWY5cA==" class="text-dark me-3"><i
+                            class="bi bi-instagram"></i></a>
+                    <a href="https://facebook.com" class="text-dark me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/shrikant-kushwaha-669378255" class="text-dark me-3"><i
+                            class="bi bi-linkedin"></i></a>
+                    <a href="https://github.com/ShriKant114" class="text-dark"><i class="bi bi-github"></i></a>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
+
+</html>

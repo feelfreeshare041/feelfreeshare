@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .admin-dashboard {
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .admin-dashboard h2 {
+      color: #e94e77;
+      text-align: left;
+      margin-bottom: 20px;
+      font-size: 35px;
+    }
+    .logout-btn {
+      background-color: #e94e77;
+      border: none;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    .logout-btn:hover {
+      background-color: #d1406f;
+    }
+    .table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      table-layout: auto;
+      word-wrap: break-word;
+    }
+    .table th, .table td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: center;
+    }
+    .table th {
+      background-color: #f2f2f2;
+    }
+    .serial-number {
+      width: 40px;
+    }
+    .file-name {
+      width: 250px;
+    }
+    .access-code, .date, .time, .preview {
+      width: 150px;
+    }
+    .table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    .filter-section {
+      margin: 20px 0;
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+    .filter-section label {
+      font-weight: bold;
+    }
+    .filter-section input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .filter-section input[type="date"] {
+      width: 150px;
+    }
+    .filter-section input[type="text"] {
+      width: 150px;
+    }
+    .filter-section button {
+      padding: 8px 12px;
+      background-color: #e94e77;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .filter-section button:hover {
+      background-color: #d1406f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="admin-dashboard">
+  <h2>Welcome, Admin</h2>
+  <p>Here you can manage your website.</p>
+  
+  <!-- Logout Button in the Top Right Corner -->
+  <button id="logoutBtn" class="logout-btn">Logout</button>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <div>
+      <label for="fileName">File Name:</label>
+      <input type="text" id="fileName" placeholder="Search by file name">
+    </div>
+    <div>
+      <label for="dateFilter">Date:</label>
+      <input type="date" id="dateFilter">
+    </div>
+    <div>
+      <button id="filterBtn">Filter</button>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="serial-number">S.No.</th>
+        <th class="file-name">File Name</th>
+        <th class="access-code">Access Code</th>
+        <th class="date">Date</th>
+        <th class="time">Time</th>
+        <th class="preview">Preview</th>
+         <th class="delete">Delete</th>
+      </tr>
+    </thead>
+
+    <tbody id="fileTableBody">
+      <!-- Rows will be dynamically populated here -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Function to fetch and display files from the server
+  function fetchFiles(fileName = '', dateFilter = '') {
+    const url = `/admin/data?fileName=${encodeURIComponent(fileName)}&dateFilter=${encodeURIComponent(dateFilter)}`;
+
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        const tableBody = document.getElementById('fileTableBody');
+        tableBody.innerHTML = data; // Directly insert the HTML rows
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+
+  // Initial fetch when the page loads
+  fetchFiles();
+
+  // Event listener for the filter button
+  document.getElementById('filterBtn').addEventListener('click', () => {
+    const fileName = document.getElementById('fileName').value;
+    const dateFilter = document.getElementById('dateFilter').value;
+    fetchFiles(fileName, dateFilter);
+  });
+
+  // Prevent access if not logged in
+  fetch('/admin')
+    .then(response => {
+      if (response.status === 401 || response.status === 403) {
+        window.location.href = '/';
+      }
+    })
+    .catch(error => console.error('Error checking authentication:', error));
+
+  // Logout functionality
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    fetch('/logout', {
+      method: 'POST', // Changed from GET to POST
+      credentials: 'same-origin'
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.href = '/'; // Redirect after logout
+      } else {
+        console.error('Logout failed.');
+      }
+    })
+    .catch(error => console.error('Error during logout:', error));
+  });
+
+  
+  // Check if the user is logged in
+  fetch('/api/check-session')
+    .then(response => response.json())
+    .then(data => {
+      if (!data.loggedIn) {
+        window.location.href = '/admin_login'; // Redirect if not logged in
+      }
+    });
+
+  // Replace history to prevent going back to admin page after logout
+  window.onload = function () {
+    // Ensure the page can't be accessed using the back button after logout
+    window.history.replaceState(null, null, window.location.href);
+    window.onpopstate = function () {
+      window.history.replaceState(null, null, window.location.href);
+    };
+  };
+
+
+
+
+</script>
+
+</body>
+</html>
